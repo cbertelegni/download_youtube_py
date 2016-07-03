@@ -1,10 +1,11 @@
+#!/usr/bin/env python
+
 from pytube import YouTube
 from pprint import pprint
 import time
 
 video_urls = [
-"https://www.youtube.com/watch?v=GRHxHapwirw",
-"https://www.youtube.com/watch?v=kVX0GtLxRjE"
+"https://www.youtube.com/watch?v=uVKAq6FTyCY"
 ]
 
 STAMP = str(time.time()).split(".")[0]
