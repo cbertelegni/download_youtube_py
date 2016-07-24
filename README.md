@@ -7,7 +7,7 @@ Run __main.py__ file `$ python main.py`
 
 ## TO DO:
 
-* Make audio files from videos 
+* Add speech recognition from audio files
 
 
 ## Credits for youtube downloader:
