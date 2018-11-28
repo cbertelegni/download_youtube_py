@@ -10,14 +10,14 @@ import glob
 """
     Set output folder name and source list for download from youtube
 """
-output_folder = "videos"
+output_folder = "downloads"
 audio_folder = "audio"
 video_urls = [
-"https://www.youtube.com/watch?v=taENjQXJbl8",
-# "https://www.youtube.com/watch?v=ZvA0uO66qoc"
+'https://www.youtube.com/watch?v=TQHs8SA1qpk'
 ]
 
 EXTRACT_AUDIO = True
+EXTRACT_SUBTITLE = True
 extension_list = ('*.mp4', '*.flv')
 
 STAMP = str(time.time()).split(".")[0]
@@ -31,21 +31,21 @@ if __name__ == "__main__":
         os.makedirs(output_path)
 
 
-    for video_path in video_urls:  
+    for video_path in video_urls:
+        print ("Get %s" % video_path)
         yt = YouTube(video_path)
-        pprint(yt.get_videos())
-        # video = yt.get('mp4')
-        """ get the better quality """
-        video = yt.filter('mp4')[0]
-        # video = yt.filter('mp4')[-1] # the best quality
-        if video:
-            # view the auto generated filename:
-            # print(yt.filename)
-            # set the filename
-            yt.set_filename("%s_%s" % (STAMP, yt.filename))
-            video.download(output_path)
-        else:
-            print("not mp4 video format for: %s \n" % (video_path))
+        
+        if EXTRACT_SUBTITLE:
+            file_name = os.path.join(output_path, '{0}.txt'.format(yt.title))
+            file = open(file_name,'w')
+            file.write(yt.captions.get_by_language_code('en').generate_srt_captions())
+            file.close()
+
+        yt.streams.filter(progressive=True, file_extension='mp4')\
+            .order_by('resolution')\
+            .desc()\
+            .first()\
+            .download(output_path)
 
         print("Sleeping...")
         time.sleep(2)
@@ -58,6 +58,7 @@ if __name__ == "__main__":
 
         os.chdir(output_path)
         for extension in extension_list:
+            print(extension)
             for video in glob.glob(extension):
                 mp3_filename = os.path.splitext(os.path.basename(video))[0] + '.mp3'
                 mp3_path =  os.path.join(output_audio_path, mp3_filename)
