@@ -20,7 +20,6 @@ EXTRACT_AUDIO = True
 EXTRACT_SUBTITLE = True
 extension_list = ('*.mp4', '*.flv')
 
-STAMP = str(time.time()).split(".")[0]
 BASE = os.path.dirname(os.path.abspath(__file__))
 output_path =  os.path.join(BASE, output_folder)
 output_audio_path =  os.path.join(output_path, audio_folder)
